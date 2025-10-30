@@ -1,0 +1,32 @@
+{
+  "name": "pieces-shorterloop",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/pieces/community/shorterloop/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": [
+        "{options.outputFile}"
+      ]
+    },
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/packages/pieces/community/shorterloop",
+        "tsConfig": "packages/pieces/community/shorterloop/tsconfig.lib.json",
+        "packageJson": "packages/pieces/community/shorterloop/package.json",
+        "main": "packages/pieces/community/shorterloop/src/index.ts",
+        "assets": [
+          "packages/pieces/community/shorterloop/*.md"
+        ],
+        "buildableProjectDepsInPackageJsonType": "dependencies",
+        "updateBuildableProjectDepsInPackageJson": true
+      }
+    }
+  },
+  "tags": []
+}
