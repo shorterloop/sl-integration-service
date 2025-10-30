@@ -1,9 +1,7 @@
 FROM node:20.19-bullseye-slim AS base
 
-# Use a cache mount for apt to speed up the process
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    apt-get update && \
+# Install system dependencies
+RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         openssh-client \
         python3 \
@@ -14,7 +12,8 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         poppler-data \
         procps && \
     yarn config set python /usr/bin/python3 && \
-    npm install -g node-gyp
+    npm install -g node-gyp && \
+    rm -rf /var/lib/apt/lists/*
 RUN npm i -g npm@9.9.3 pnpm@9.15.0 pm2@6.0.10 typescript@4.9.4
 
 # Set the locale
