@@ -1,11 +1,13 @@
 #!/bin/sh
-set -e  # Exit on error
 
 # Set default values if not provided
 export AP_APP_TITLE="${AP_APP_TITLE:-Activepieces}"
 export AP_FAVICON_URL="${AP_FAVICON_URL:-https://cdn.activepieces.com/brand/favicon.ico}"
 
 # Debug: Print environment variables
+echo "========================================="
+echo "Starting Activepieces Entrypoint Script"
+echo "========================================="
 echo "AP_APP_TITLE: $AP_APP_TITLE"
 echo "AP_FAVICON_URL: $AP_FAVICON_URL"
 
@@ -14,31 +16,35 @@ if [ -f /usr/share/nginx/html/index.html ]; then
     echo "Processing index.html with environment variables..."
     envsubst '${AP_APP_TITLE} ${AP_FAVICON_URL}' < /usr/share/nginx/html/index.html > /usr/share/nginx/html/index.html.tmp && \
     mv /usr/share/nginx/html/index.html.tmp /usr/share/nginx/html/index.html
-    echo "index.html processed successfully"
+    echo "✓ index.html processed successfully"
 else
-    echo "WARNING: /usr/share/nginx/html/index.html not found, skipping envsubst"
+    echo "⚠ WARNING: /usr/share/nginx/html/index.html not found, skipping envsubst"
 fi
 
 # Test Nginx configuration
 echo "Testing Nginx configuration..."
-nginx -t
+if nginx -t 2>&1; then
+    echo "✓ Nginx configuration is valid"
+else
+    echo "✗ ERROR: Nginx configuration test failed!"
+    echo "Continuing anyway to show backend..."
+fi
 
 # Start Nginx server
 echo "Starting Nginx on port 80..."
 nginx -g "daemon off;" &
 NGINX_PID=$!
-echo "Nginx started with PID: $NGINX_PID"
+echo "✓ Nginx started with PID: $NGINX_PID"
 
 # Wait a moment for Nginx to start
 sleep 2
 
 # Verify Nginx is running
-if ! kill -0 $NGINX_PID 2>/dev/null; then
-    echo "ERROR: Nginx failed to start!"
-    exit 1
+if kill -0 $NGINX_PID 2>/dev/null; then
+    echo "✓ Nginx is running successfully and listening on port 80"
+else
+    echo "✗ ERROR: Nginx process died after starting!"
 fi
-
-echo "Nginx is running successfully"
 
 # Start backend server
 if [ "$AP_CONTAINER_TYPE" = "APP" ] && [ "$AP_PM2_ENABLED" = "true" ]; then
