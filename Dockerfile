@@ -76,6 +76,7 @@ COPY --from=build /usr/src/app/LICENSE .
 RUN mkdir -p /usr/src/app/dist/packages/server/
 RUN mkdir -p /usr/src/app/dist/packages/engine/
 RUN mkdir -p /usr/src/app/dist/packages/shared/
+RUN mkdir -p /usr/src/app/cache
 
 # Copy Output files to appropriate directory from build stage
 COPY --from=build /usr/src/app/dist/packages/engine/ /usr/src/app/dist/packages/engine/
