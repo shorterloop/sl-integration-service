@@ -372,7 +372,7 @@
     "jest-util": "30.0.5",
     "jsonc-eslint-parser": "^2.1.0",
     "lint-staged": "15.2.9",
-    "nx": "22.0.1",
+    "nx": "22.7.2",
     "pino-pretty": "9.4.1",
     "pnpm": "9.15.0",
     "postcss": "8.4.38",
