@@ -280,7 +280,7 @@
   "devDependencies": {
     "@commitlint/cli": "17.7.1",
     "@commitlint/config-conventional": "17.7.0",
-    "@faker-js/faker": "8.2.0",
+    "@faker-js/faker": "10.5.0",
     "@nx/esbuild": "22.0.1",
     "@nx/eslint": "22.0.1",
     "@nx/eslint-plugin": "22.0.1",
