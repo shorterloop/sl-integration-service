@@ -3,6 +3,6 @@
   "version": "0.1.8",
   "dependencies": {
     "jimp": "^0.22.12",
-    "exifreader": "4.20.0"
+    "exifreader": "4.41.1"
   }
 }
